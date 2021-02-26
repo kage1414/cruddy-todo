@@ -24,11 +24,18 @@ exports.create = (text, callback) => {
 
 exports.readAll = (callback) => {
   // refactor this  to be a readdir
-  var data = _.map(items, (text, id) => {
-    return { id, text };
+  fs.readdir(exports.dataDir, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      let contents = _.map(data, (fileName) => {
+        let id = fileName.slice(0, 5);
+        let text = id;
+        return {id, text};
+      });
+      callback(null, contents);
+    }
   });
-  // console.log(data);
-  callback(null, data);
 };
 
 exports.readOne = (id, callback) => {

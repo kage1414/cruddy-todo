@@ -124,7 +124,7 @@ describe('todos', () => {
         todos.create(todo2text, (err, todo) => {
           todos.readAll((err, todoList) => {
             expect(todoList).to.have.lengthOf(2);
-            expect(todoList).to.deep.include.members(expectedTodoList);
+            expect(todoList).to.deep.include.members(expectedTodoList, 'NOTE: Text field should use the Id initially');
             done();
           });
         });
