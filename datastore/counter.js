@@ -53,21 +53,7 @@ exports.getNextUniqueId = (callback) => {
     });
   });
 
-  // // LET'S TRY PROMISES!
-  // return readCounterAsync()
-  //   .then((count) => {
-  //     count += 1;
-  //     return writeCounterAsync(count);
-  //   })
-  //   .then((counterString) => {
-  //     callback(null, counterString);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
 };
-
-
 
 // Configuration -- DO NOT MODIFY //////////////////////////////////////////////
 
