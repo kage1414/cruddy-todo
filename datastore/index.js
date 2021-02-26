@@ -11,7 +11,7 @@ exports.create = (text, callback) => {
   counter.getNextUniqueId((err, id) => {
     let newFileName = id + '.txt';
     let newFilePath = path.join(exports.dataDir, newFileName);
-    debugger;
+    items[id] = text;
     fs.writeFile(newFilePath, text, (err) => {
       if (err) {
         console.log('Error Creating Todo : ', err);
@@ -23,9 +23,11 @@ exports.create = (text, callback) => {
 };
 
 exports.readAll = (callback) => {
+  // refactor this  to be a readdir
   var data = _.map(items, (text, id) => {
     return { id, text };
   });
+  // console.log(data);
   callback(null, data);
 };
 

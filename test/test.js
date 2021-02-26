@@ -91,7 +91,6 @@ describe('todos', () => {
       const todoText = 'walk the dog';
       todos.create(todoText, (err, todo) => {
         const todoFileContents = fs.readFileSync(path.join(todos.dataDir, `${todo.id}.txt`)).toString();
-        debugger;
         expect(todoFileContents).to.equal(todoText);
         done();
       });
@@ -125,7 +124,7 @@ describe('todos', () => {
         todos.create(todo2text, (err, todo) => {
           todos.readAll((err, todoList) => {
             expect(todoList).to.have.lengthOf(2);
-            expect(todoList).to.deep.include.members(expectedTodoList, 'NOTE: Text field should use the Id initially');
+            expect(todoList).to.deep.include.members(expectedTodoList);
             done();
           });
         });
