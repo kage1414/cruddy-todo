@@ -6,17 +6,34 @@ const counter = require('./counter');
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
 exports.create = (text, callback) => {
-  counter.getNextUniqueId((err, id) => {
-    let newFileName = id + '.txt';
-    let newFilePath = path.join(exports.dataDir, newFileName);
-    fs.writeFile(newFilePath, text, (err) => {
-      if (err) {
-        console.log('Error Creating Todo : ', err);
-      } else {
-        callback(null, { id, text });
-      }
+  counter.getNextUniqueId()
+    .then((id) => {
+      let newFileName = id + '.txt';
+      let newFilePath = path.join(exports.dataDir, newFileName);
+      fs.writeFile(newFilePath, text, (err) => {
+        if (err) {
+          console.log('Error Creating Todo : ', err);
+        } else {
+          callback(null, { id, text });
+        }
+      });
     });
-  });
+
+
+
+
+
+  //   (err, id) => {
+  //   let newFileName = id + '.txt';
+  //   let newFilePath = path.join(exports.dataDir, newFileName);
+  //   fs.writeFile(newFilePath, text, (err) => {
+  //     if (err) {
+  //       console.log('Error Creating Todo : ', err);
+  //     } else {
+  //       callback(null, { id, text });
+  //     }
+  //   });
+  // });
 };
 
 exports.readAll = (callback) => {

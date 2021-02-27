@@ -43,17 +43,30 @@ const writeCounterAsync = Promise.promisify(writeCounter);
 
 // Public API - Fix this function //////////////////////////////////////////////
 
-exports.getNextUniqueId = (callback) => {
-
-  readCounter((err, count) => {
-    count = count + 1;
-
-    writeCounter(count, (err, counterString) => {
-      callback(null, counterString);
+exports.getNextUniqueId = new Promise((resolve, reject) => {
+  return readCounterAsync()
+    .then ((count) => {
+      count = count + 1;
+      writeCounterAsync(count);
+    })
+    .then ((counterString) => {
+      resolve(counterString);
     });
-  });
+});
 
-};
+
+
+// (callback) => {
+
+//   readCounter((err, count) => {
+
+
+//     writeCounter(count, (err, counterString) => {
+//       callback(null, counterString);
+//     });
+//   });
+
+// };
 
 // Configuration -- DO NOT MODIFY //////////////////////////////////////////////
 
