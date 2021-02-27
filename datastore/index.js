@@ -20,17 +20,31 @@ exports.create = (text, callback) => {
 };
 
 exports.readAll = (callback) => {
-  // refactor this  to be a readdir
   fs.readdir(exports.dataDir, (err, data) => {
     if (err) {
       console.log(err);
     } else {
-      let contents = _.map(data, (fileName) => {
-        let id = fileName.slice(0, 5);
-        let text = id;
-        return {id, text};
+      let promiseArray = _.map(data, (file) => {
+        return new Promise((resolve, reject) => {
+          let filepath = path.join(exports.dataDir, file);
+          fs.readFile(filepath, 'utf8', (err, fileContents) => {
+            if (err) {
+              reject(err);
+            } else {
+              let id = file.slice(0, 5);
+              let text = fileContents;
+              resolve({id, text});
+            }
+          });
+        });
       });
-      callback(null, contents);
+      Promise.all(promiseArray)
+        .then ((contents) => {
+          callback(null, contents);
+        })
+        .catch ((err) => {
+          console.log('there was an error... ', err);
+        });
     }
   });
 };
@@ -78,14 +92,6 @@ exports.delete = (id, callback) => {
       callback();
     }
   });
-  // var item = items[id];
-  // delete items[id];
-  // if (!item) {
-  //   // report an error if item not found
-  //   callback(new Error(`No item with id: ${id}`));
-  // } else {
-  //   callback();
-  // }
 };
 
 // Config+Initialization code -- DO NOT MODIFY /////////////////////////////////
